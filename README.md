@@ -1,7 +1,24 @@
-# HarborFlow Go 标注题根仓库
+# HarborFlow
 
-本公开仓库承载 HarborFlow 跨境口岸联合压力测试运营后端的 Go 标注题。
+HarborFlow is a Go backend for operating joint Hong Kong–Shenzhen port stress tests. It models passenger waves, three-stage cooperative inspection, vehicle lanes, risk checks, emergency response, inter-agency notifications, capacity snapshots and audit history.
 
-每道题使用唯一的 `tasks/<task_key>/red` 与 `tasks/<task_key>/green` 分支。题目的任务专用测试只存在于 red 基线和 Gomark 私有 intake 材料中；模型执行阶段从对应 green G1 基线开始。
+The service uses a real SQLite database in WAL mode. Migrations run at startup and all state transitions are performed through service boundaries that carry request context and transaction ownership. The HTTP server exposes health/readiness checks and a small operational API under `/api`.
 
-项目主题来源：中新网《皇岗口岸举行首次港深联合压力测试 旅客1分钟内可通过合作查验通道》。
+## Run
+
+```bash
+GOTOOLCHAIN=local go run ./cmd/server
+```
+
+Environment variables are documented in `.env.example`. The first startup creates the database and applies migrations. The seeded demo user is `coordinator@harborflow.local` with role `coordinator`; tests use an isolated temporary database.
+
+## Verify
+
+```bash
+GOTOOLCHAIN=local go test ./... -count=1
+GOTOOLCHAIN=local go test -race ./... -count=1
+GOTOOLCHAIN=local go vet ./...
+GOTOOLCHAIN=local go build ./...
+```
+
+The default Docker entrypoint is `./server`, and readiness checks the database connection and migration version.
