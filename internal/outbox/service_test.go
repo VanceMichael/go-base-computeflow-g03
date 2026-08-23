@@ -8,9 +8,28 @@ import (
 	"github.com/VanceMichael/computeflow/internal/outbox"
 	"github.com/VanceMichael/computeflow/internal/testsupport"
 	"github.com/google/uuid"
+	"sync"
 	"testing"
 	"time"
 )
+
+func TestDeliveryLedgerIsSafeForConcurrentReplay(t *testing.T) {
+	ledger := outbox.NewLedger()
+	var wg sync.WaitGroup
+	for n := 0; n < 16; n++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			if err := ledger.Record("delivery", "accepted"); err != nil {
+				t.Errorf("record: %v", err)
+			}
+			if got, ok := ledger.Replay("delivery"); !ok || got != "accepted" {
+				t.Errorf("replay=%q ok=%v", got, ok)
+			}
+		}()
+	}
+	wg.Wait()
+}
 
 func TestOutboxServiceClaimsAndDeliversOwnedMessage(t *testing.T) {
 	f := testsupport.New(t)

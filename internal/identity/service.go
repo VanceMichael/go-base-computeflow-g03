@@ -38,6 +38,9 @@ func (s *Service) Login(ctx context.Context, portID, email string, now time.Time
 func (s *Service) Authenticate(ctx context.Context, raw string, now time.Time) (domain.User, error) {
 	u, err := s.Store.FindSessionUser(ctx, hashToken(raw), now)
 	if err != nil {
+		if errors.Is(err, context.Canceled) || errors.Is(err, context.DeadlineExceeded) {
+			return u, err
+		}
 		return u, domain.ErrUnauthorized
 	}
 	if !u.Active {

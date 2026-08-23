@@ -16,6 +16,13 @@ type Service struct {
 
 func New(s *sqlite.Store, z *time.Location) *Service { return &Service{Store: s, Zone: z} }
 func (s *Service) Snapshot(ctx context.Context, runID string, from, to time.Time, now time.Time) (domain.CapacitySnapshot, error) {
+	var state string
+	if err := s.Store.DB.QueryRowContext(ctx, `SELECT state FROM stress_runs WHERE id=?`, runID).Scan(&state); err != nil {
+		return domain.CapacitySnapshot{}, err
+	}
+	if state != string(domain.RunRunning) {
+		return domain.CapacitySnapshot{}, domain.ErrConflict
+	}
 	pass, clear, held, err := s.Store.CountRunPassengers(ctx, runID)
 	if err != nil {
 		return domain.CapacitySnapshot{}, err

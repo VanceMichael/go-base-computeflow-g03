@@ -34,7 +34,21 @@ func (s *Store) UpdateBatchState(ctx context.Context, tx *sql.Tx, id, from, to s
 	return n == 1, err
 }
 func (s *Store) ReleaseLaneAssignments(ctx context.Context, tx *sql.Tx, laneID string) error {
-	return exec(tx, ctx, `UPDATE lane_assignments SET state='released' WHERE lane_id=? AND state='active'`, laneID)
+	var active int
+	if err := tx.QueryRowContext(ctx, `SELECT COUNT(*) FROM lane_assignments WHERE lane_id=? AND state='active'`, laneID).Scan(&active); err != nil {
+		return err
+	}
+	if active != 0 {
+		return domain.ErrConflict
+	}
+	n, err := rowsAffected(tx, ctx, `UPDATE lanes SET state='closed',version=version+1 WHERE id=? AND state='open'`, laneID)
+	if err != nil {
+		return err
+	}
+	if n != 1 {
+		return domain.ErrConflict
+	}
+	return nil
 }
 func (s *Store) CountActiveVehicles(ctx context.Context, laneID string) (int, error) {
 	var n int

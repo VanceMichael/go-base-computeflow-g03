@@ -23,6 +23,13 @@ func (s *Service) Claim(ctx context.Context, incidentID, responderID, owner stri
 		if !ok {
 			return domain.ErrConflict
 		}
+		ok, e = s.Store.SetResponderState(ctx, tx, responderID, "available", "busy", 1)
+		if e != nil {
+			return e
+		}
+		if !ok {
+			return domain.ErrConflict
+		}
 		return nil
 	})
 	if err != nil {

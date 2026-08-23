@@ -63,6 +63,14 @@ func TestExpiredSessionCannotAuthenticate(t *testing.T) {
 		t.Fatalf("got %v", err)
 	}
 }
+func TestAuthenticatePreservesCancellation(t *testing.T) {
+	f := testsupport.New(t)
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+	if _, err := identity.New(f.Store, time.Hour).Authenticate(ctx, "token", f.Now); !errors.Is(err, context.Canceled) {
+		t.Fatalf("got %v", err)
+	}
+}
 func TestDeactivateUserRevokesExistingSessions(t *testing.T) {
 	f := testsupport.New(t)
 	s := identity.New(f.Store, time.Hour)

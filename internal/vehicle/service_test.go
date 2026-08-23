@@ -47,18 +47,18 @@ func TestAssignLaneCreatesOneOwnership(t *testing.T) {
 		t.Fatal("second assignment succeeded")
 	}
 }
-func TestCloseLaneReleasesActiveAssignments(t *testing.T) {
+func TestCloseLaneRejectsActiveAssignments(t *testing.T) {
 	f := testsupport.New(t)
 	lane := f.Lane(1)
 	vehicleA := f.Vehicle("vehicle-a")
 	if err := vehicle.New(f.Store).AssignLane(context.Background(), lane.ID, vehicleA.ID, "dispatcher", f.Now); err != nil {
 		t.Fatal(err)
 	}
-	if err := vehicle.New(f.Store).CloseLane(context.Background(), lane.ID); err != nil {
-		t.Fatal(err)
+	if err := vehicle.New(f.Store).CloseLane(context.Background(), lane.ID); !errors.Is(err, domain.ErrConflict) {
+		t.Fatalf("got %v", err)
 	}
 	n, err := f.Store.CountActiveVehicles(context.Background(), lane.ID)
-	if err != nil || n != 0 {
+	if err != nil || n != 1 {
 		t.Fatalf("%d %v", n, err)
 	}
 }
