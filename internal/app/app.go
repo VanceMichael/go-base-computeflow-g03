@@ -104,6 +104,11 @@ func (a *App) Serve(ctx context.Context) error {
 		if err == http.ErrServerClosed {
 			return nil
 		}
+		cancel()
+		a.Workers.Wait()
+		if closeErr := a.Store.Close(); closeErr != nil {
+			return fmt.Errorf("serve: %v; close store: %w", err, closeErr)
+		}
 		return err
 	}
 }

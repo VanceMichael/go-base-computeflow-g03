@@ -24,3 +24,17 @@ func TestAppSeedsOperationalPortAndReadiness(t *testing.T) {
 		t.Fatalf("%d %v", n, err)
 	}
 }
+
+func TestServeFailureClosesStore(t *testing.T) {
+	cfg := config.Config{Port: -1, DatabasePath: t.TempDir() + "/app.db", BusinessZone: time.UTC, SessionTTL: time.Hour, ShutdownGrace: time.Second}
+	a, err := app.New(context.Background(), cfg, slog.Default())
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err := a.Serve(context.Background()); err == nil {
+		t.Fatal("serve succeeded")
+	}
+	if err := a.Store.DB.Ping(); err == nil {
+		t.Fatal("store remained open after listener failure")
+	}
+}
