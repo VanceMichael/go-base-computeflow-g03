@@ -53,24 +53,31 @@ func (s *Store) Now() time.Time                { return s.now().UTC() }
 func (s *Store) SetClock(now func() time.Time) { s.now = now }
 
 func (s *Store) Migrate(ctx context.Context) error {
-	if _, err := s.DB.ExecContext(ctx, `CREATE TABLE IF NOT EXISTS schema_migrations (version INTEGER PRIMARY KEY, applied_at TEXT NOT NULL)`); err != nil {
+	tx, err := s.DB.BeginTx(ctx, nil)
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+	if _, err := tx.ExecContext(ctx, `CREATE TABLE IF NOT EXISTS schema_migrations (version INTEGER PRIMARY KEY, applied_at TEXT NOT NULL)`); err != nil {
 		return err
 	}
 	var version int
-	_ = s.DB.QueryRowContext(ctx, `SELECT COALESCE(MAX(version),0) FROM schema_migrations`).Scan(&version)
+	if err := tx.QueryRowContext(ctx, `SELECT COALESCE(MAX(version),0) FROM schema_migrations`).Scan(&version); err != nil {
+		return err
+	}
 	if version < 1 {
 		body, err := readMigration()
 		if err != nil {
 			return err
 		}
-		if _, err = s.DB.ExecContext(ctx, string(body)); err != nil {
+		if _, err = tx.ExecContext(ctx, string(body)); err != nil {
 			return fmt.Errorf("migration 1: %w", err)
 		}
-		if _, err = s.DB.ExecContext(ctx, `INSERT INTO schema_migrations(version,applied_at) VALUES(1,?)`, s.Now().Format(time.RFC3339Nano)); err != nil {
+		if _, err = tx.ExecContext(ctx, `INSERT INTO schema_migrations(version,applied_at) VALUES(1,?)`, s.Now().Format(time.RFC3339Nano)); err != nil {
 			return err
 		}
 	}
-	return nil
+	return tx.Commit()
 }
 
 func readMigration() ([]byte, error) {

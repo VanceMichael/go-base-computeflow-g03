@@ -7,6 +7,7 @@ import (
 	"github.com/VanceMichael/computeflow/internal/flow"
 	"github.com/VanceMichael/computeflow/internal/testsupport"
 	"testing"
+	"time"
 )
 
 func runFixture(t *testing.T) (*testsupport.Fixture, domain.StressRun) {
@@ -110,5 +111,18 @@ func TestCompleteRunRejectsDraftState(t *testing.T) {
 	r := domain.StressRun{ID: "r", PortID: f.Port.ID, State: domain.RunDraft, Version: 1}
 	if err := flow.New(f.Store).CompleteRun(context.Background(), r, f.Now); !errors.Is(err, domain.ErrInvalid) {
 		t.Fatalf("got %v", err)
+	}
+}
+func TestTransitionLogReturnsIsolatedPayloads(t *testing.T) {
+	log := flow.NewTransitionLog()
+	e := domain.OperationalEvent{ID: "event", PortID: "region", Type: domain.EventWaveReleased, SubjectID: "wave", OccurredAt: time.Now(), Payload: map[string]string{"state": "released"}}
+	if err := log.Append(e); err != nil {
+		t.Fatal(err)
+	}
+	first := log.Since("region", time.Time{})
+	first[0].Payload["state"] = "corrupted"
+	second := log.Since("region", time.Time{})
+	if second[0].Payload["state"] != "released" {
+		t.Fatalf("payload=%v", second[0].Payload)
 	}
 }

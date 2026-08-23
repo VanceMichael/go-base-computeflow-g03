@@ -20,6 +20,15 @@ func NewRecoveryState() *RecoveryState {
 func (r *RecoveryState) Begin(runID string, now time.Time) error {
 	r.mu.Lock()
 	defer r.mu.Unlock()
+	if r.RunStates == nil {
+		r.RunStates = map[string]domain.RunState{}
+	}
+	if r.LastAttempt == nil {
+		r.LastAttempt = map[string]time.Time{}
+	}
+	if r.Attempts == nil {
+		r.Attempts = map[string]int{}
+	}
 	if runID == "" {
 		return fmt.Errorf("%w: run id", domain.ErrInvalid)
 	}

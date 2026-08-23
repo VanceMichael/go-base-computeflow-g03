@@ -94,6 +94,6 @@ func (s *Store) FindOutbox(ctx context.Context, id, portID string) (domain.Outbo
 	m.DeliveredAt = nullableTime(delivered)
 	return m, nil
 }
-func (s *Store) SetOutboxError(ctx context.Context, tx *sql.Tx, id, owner, message string) error {
-	return exec(tx, ctx, `UPDATE outbox_messages SET state=CASE WHEN attempts>=5 THEN 'dead' ELSE 'pending' END,owner=NULL,lease_until=NULL,last_error=? WHERE id=? AND state='leased' AND owner=?`, message, id, owner)
+func (s *Store) SetOutboxError(ctx context.Context, tx *sql.Tx, id, owner, message string, maxAttempts int) error {
+	return exec(tx, ctx, `UPDATE outbox_messages SET state=CASE WHEN attempts>=? THEN 'dead' ELSE 'pending' END,owner=NULL,lease_until=NULL,last_error=? WHERE id=? AND state='leased' AND owner=?`, maxAttempts, message, id, owner)
 }

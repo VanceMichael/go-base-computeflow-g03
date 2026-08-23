@@ -30,6 +30,11 @@ func (l *TransitionLog) Since(portID string, from time.Time) []domain.Operationa
 	out := make([]domain.OperationalEvent, 0)
 	for _, e := range l.entries {
 		if e.PortID == portID && !e.OccurredAt.Before(from) {
+			payload := make(map[string]string, len(e.Payload))
+			for key, value := range e.Payload {
+				payload[key] = value
+			}
+			e.Payload = payload
 			out = append(out, e)
 		}
 	}

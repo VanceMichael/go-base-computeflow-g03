@@ -40,3 +40,12 @@ func TestRetryPolicyStopsAtMaximum(t *testing.T) {
 		t.Fatal("retry boundary incorrect")
 	}
 }
+func TestRecoveryStateSupportsRestoredZeroValue(t *testing.T) {
+	var state worker.RecoveryState
+	if err := state.Begin("run", time.Now()); err != nil {
+		t.Fatal(err)
+	}
+	if !state.Retryable("run", 2) {
+		t.Fatal("restored run cannot retry")
+	}
+}

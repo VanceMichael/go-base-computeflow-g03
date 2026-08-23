@@ -40,7 +40,7 @@ func NewRetryService(s *sqlite.Store, p RetryPolicy) *RetryService {
 }
 func (r *RetryService) Failure(ctx context.Context, id, owner, message string) error {
 	return r.Store.WithTx(ctx, func(ctx context.Context, tx *sql.Tx) error {
-		if err := r.Store.SetOutboxError(ctx, tx, id, owner, message); err != nil {
+		if err := r.Store.SetOutboxError(ctx, tx, id, owner, message, r.Policy.MaxAttempts); err != nil {
 			return err
 		}
 		return nil

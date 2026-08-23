@@ -44,6 +44,28 @@ func TestMigrationIsIdempotentAcrossRestart(t *testing.T) {
 		t.Fatalf("version=%d", v)
 	}
 }
+func TestMigrationRollsBackSchemaWhenVersionWriteFails(t *testing.T) {
+	db, err := sql.Open("sqlite", "file:"+t.TempDir()+"/rollback.db?_pragma=foreign_keys(1)")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer db.Close()
+	if _, err := db.Exec(`CREATE TABLE schema_migrations (version INTEGER PRIMARY KEY, applied_at TEXT NOT NULL); CREATE TRIGGER reject_version BEFORE INSERT ON schema_migrations BEGIN SELECT RAISE(FAIL, 'blocked'); END;`); err != nil {
+		t.Fatal(err)
+	}
+	s := &sqlite.Store{DB: db}
+	s.SetClock(time.Now)
+	if err := s.Migrate(context.Background()); err == nil {
+		t.Fatal("migration unexpectedly succeeded")
+	}
+	var n int
+	if err := db.QueryRow(`SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='ports'`).Scan(&n); err != nil {
+		t.Fatal(err)
+	}
+	if n != 0 {
+		t.Fatal("migration schema was partially committed")
+	}
+}
 func TestPortLookupRequiresPortIdentity(t *testing.T) {
 	f := testsupport.New(t)
 	if _, err := f.Store.GetPort(context.Background(), uuid.NewString()); err == nil {
