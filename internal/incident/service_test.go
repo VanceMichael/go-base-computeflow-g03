@@ -3,9 +3,9 @@ package incident_test
 import (
 	"context"
 	"errors"
-	"github.com/VanceMichael/harborflow/internal/domain"
-	"github.com/VanceMichael/harborflow/internal/incident"
-	"github.com/VanceMichael/harborflow/internal/testsupport"
+	"github.com/VanceMichael/computeflow/internal/domain"
+	"github.com/VanceMichael/computeflow/internal/incident"
+	"github.com/VanceMichael/computeflow/internal/testsupport"
 	"testing"
 )
 

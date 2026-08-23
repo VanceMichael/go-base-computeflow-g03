@@ -2,7 +2,7 @@ package outbox
 
 import (
 	"fmt"
-	"github.com/VanceMichael/harborflow/internal/domain"
+	"github.com/VanceMichael/computeflow/internal/domain"
 )
 
 type DeliveryLedger struct{ Seen map[string]string }

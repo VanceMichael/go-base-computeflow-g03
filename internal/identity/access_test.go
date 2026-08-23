@@ -2,8 +2,8 @@ package identity_test
 
 import (
 	"errors"
-	"github.com/VanceMichael/harborflow/internal/domain"
-	"github.com/VanceMichael/harborflow/internal/identity"
+	"github.com/VanceMichael/computeflow/internal/domain"
+	"github.com/VanceMichael/computeflow/internal/identity"
 	"testing"
 )
 

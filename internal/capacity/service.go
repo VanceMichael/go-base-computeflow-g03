@@ -3,8 +3,8 @@ package capacity
 import (
 	"context"
 	"database/sql"
-	"github.com/VanceMichael/harborflow/internal/domain"
-	"github.com/VanceMichael/harborflow/internal/storage/sqlite"
+	"github.com/VanceMichael/computeflow/internal/domain"
+	"github.com/VanceMichael/computeflow/internal/storage/sqlite"
 	"github.com/google/uuid"
 	"time"
 )

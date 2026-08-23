@@ -3,7 +3,7 @@ package audit
 import (
 	"context"
 	"encoding/json"
-	"github.com/VanceMichael/harborflow/internal/domain"
+	"github.com/VanceMichael/computeflow/internal/domain"
 	"time"
 )
 

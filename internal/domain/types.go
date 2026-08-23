@@ -7,11 +7,11 @@ import (
 )
 
 var (
-	ErrNotFound     = errors.New("harborflow: not found")
-	ErrConflict     = errors.New("harborflow: conflict")
-	ErrInvalid      = errors.New("harborflow: invalid operation")
-	ErrUnauthorized = errors.New("harborflow: unauthorized")
-	ErrUnavailable  = errors.New("harborflow: dependency unavailable")
+	ErrNotFound     = errors.New("computeflow: not found")
+	ErrConflict     = errors.New("computeflow: conflict")
+	ErrInvalid      = errors.New("computeflow: invalid operation")
+	ErrUnauthorized = errors.New("computeflow: unauthorized")
+	ErrUnavailable  = errors.New("computeflow: dependency unavailable")
 )
 
 type Role string

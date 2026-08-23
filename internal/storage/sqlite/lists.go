@@ -2,7 +2,7 @@ package sqlite
 
 import (
 	"context"
-	"github.com/VanceMichael/harborflow/internal/domain"
+	"github.com/VanceMichael/computeflow/internal/domain"
 )
 
 func (s *Store) ListOpenIncidents(ctx context.Context, portID string, limit, offset int) ([]domain.Incident, int, error) {

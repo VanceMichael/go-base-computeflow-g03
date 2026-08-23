@@ -4,9 +4,9 @@ import (
 	"context"
 	"database/sql"
 	"errors"
-	"github.com/VanceMichael/harborflow/internal/domain"
-	"github.com/VanceMichael/harborflow/internal/gate"
-	"github.com/VanceMichael/harborflow/internal/testsupport"
+	"github.com/VanceMichael/computeflow/internal/domain"
+	"github.com/VanceMichael/computeflow/internal/gate"
+	"github.com/VanceMichael/computeflow/internal/testsupport"
 	"github.com/google/uuid"
 	"testing"
 )

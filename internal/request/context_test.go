@@ -2,7 +2,7 @@ package request_test
 
 import (
 	"context"
-	"github.com/VanceMichael/harborflow/internal/request"
+	"github.com/VanceMichael/computeflow/internal/request"
 	"testing"
 )
 

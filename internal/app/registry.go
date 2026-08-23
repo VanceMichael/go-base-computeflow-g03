@@ -2,7 +2,7 @@ package app
 
 import (
 	"fmt"
-	"github.com/VanceMichael/harborflow/internal/domain"
+	"github.com/VanceMichael/computeflow/internal/domain"
 	"sync"
 )
 

@@ -1,8 +1,8 @@
 package capacity_test
 
 import (
-	"github.com/VanceMichael/harborflow/internal/capacity"
-	"github.com/VanceMichael/harborflow/internal/domain"
+	"github.com/VanceMichael/computeflow/internal/capacity"
+	"github.com/VanceMichael/computeflow/internal/domain"
 	"testing"
 )
 

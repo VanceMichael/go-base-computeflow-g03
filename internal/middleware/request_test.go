@@ -1,7 +1,7 @@
 package middleware_test
 
 import (
-	"github.com/VanceMichael/harborflow/internal/middleware"
+	"github.com/VanceMichael/computeflow/internal/middleware"
 	"log/slog"
 	"net/http"
 	"net/http/httptest"

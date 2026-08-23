@@ -3,7 +3,7 @@ package worker_test
 import (
 	"context"
 	"errors"
-	"github.com/VanceMichael/harborflow/internal/worker"
+	"github.com/VanceMichael/computeflow/internal/worker"
 	"sync/atomic"
 	"testing"
 	"time"

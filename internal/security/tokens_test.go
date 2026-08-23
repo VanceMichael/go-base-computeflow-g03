@@ -1,7 +1,7 @@
 package security_test
 
 import (
-	"github.com/VanceMichael/harborflow/internal/security"
+	"github.com/VanceMichael/computeflow/internal/security"
 	"testing"
 )
 

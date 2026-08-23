@@ -4,7 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"github.com/VanceMichael/harborflow/internal/domain"
+	"github.com/VanceMichael/computeflow/internal/domain"
 )
 
 func (s *Store) CheckConsistency(ctx context.Context, portID string) error {

@@ -3,22 +3,22 @@ package app
 import (
 	"context"
 	"fmt"
-	"github.com/VanceMichael/harborflow/internal/audit"
-	"github.com/VanceMichael/harborflow/internal/capacity"
-	"github.com/VanceMichael/harborflow/internal/config"
-	"github.com/VanceMichael/harborflow/internal/dispatch"
-	"github.com/VanceMichael/harborflow/internal/domain"
-	"github.com/VanceMichael/harborflow/internal/flow"
-	"github.com/VanceMichael/harborflow/internal/gate"
-	"github.com/VanceMichael/harborflow/internal/httpapi"
-	"github.com/VanceMichael/harborflow/internal/identity"
-	"github.com/VanceMichael/harborflow/internal/incident"
-	"github.com/VanceMichael/harborflow/internal/middleware"
-	"github.com/VanceMichael/harborflow/internal/outbox"
-	"github.com/VanceMichael/harborflow/internal/risk"
-	"github.com/VanceMichael/harborflow/internal/storage/sqlite"
-	"github.com/VanceMichael/harborflow/internal/vehicle"
-	"github.com/VanceMichael/harborflow/internal/worker"
+	"github.com/VanceMichael/computeflow/internal/audit"
+	"github.com/VanceMichael/computeflow/internal/capacity"
+	"github.com/VanceMichael/computeflow/internal/config"
+	"github.com/VanceMichael/computeflow/internal/dispatch"
+	"github.com/VanceMichael/computeflow/internal/domain"
+	"github.com/VanceMichael/computeflow/internal/flow"
+	"github.com/VanceMichael/computeflow/internal/gate"
+	"github.com/VanceMichael/computeflow/internal/httpapi"
+	"github.com/VanceMichael/computeflow/internal/identity"
+	"github.com/VanceMichael/computeflow/internal/incident"
+	"github.com/VanceMichael/computeflow/internal/middleware"
+	"github.com/VanceMichael/computeflow/internal/outbox"
+	"github.com/VanceMichael/computeflow/internal/risk"
+	"github.com/VanceMichael/computeflow/internal/storage/sqlite"
+	"github.com/VanceMichael/computeflow/internal/vehicle"
+	"github.com/VanceMichael/computeflow/internal/worker"
 	"github.com/google/uuid"
 	"log/slog"
 	"net/http"
@@ -65,7 +65,7 @@ func seed(ctx context.Context, s *sqlite.Store) error {
 	if err != nil {
 		return err
 	}
-	u := domain.User{ID: uuid.NewString(), PortID: p.ID, Email: "coordinator@harborflow.local", DisplayName: "Joint Operations Coordinator", Role: domain.RoleCoordinator, Active: true, CreatedAt: s.Now()}
+	u := domain.User{ID: uuid.NewString(), PortID: p.ID, Email: "coordinator@computeflow.local", DisplayName: "Compute Market Coordinator", Role: domain.RoleCoordinator, Active: true, CreatedAt: s.Now()}
 	if _, err = s.DB.ExecContext(ctx, `INSERT OR IGNORE INTO users(id,port_id,email,display_name,role,active,created_at) VALUES(?,?,?,?,?,?,?)`, u.ID, u.PortID, u.Email, u.DisplayName, string(u.Role), 1, stamp(u.CreatedAt)); err != nil {
 		return err
 	}
@@ -91,7 +91,7 @@ func (a *App) Serve(ctx context.Context) error {
 	defer cancel()
 	a.Workers.Run(workerCtx)
 	errCh := make(chan error, 1)
-	go func() { a.logger.Info("harborflow listening", "addr", addr); errCh <- server.ListenAndServe() }()
+	go func() { a.logger.Info("computeflow listening", "addr", addr); errCh <- server.ListenAndServe() }()
 	select {
 	case <-ctx.Done():
 		shutdownCtx, stop := context.WithTimeout(context.Background(), a.Config.ShutdownGrace)

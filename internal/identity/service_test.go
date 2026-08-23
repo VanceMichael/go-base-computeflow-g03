@@ -3,9 +3,9 @@ package identity_test
 import (
 	"context"
 	"errors"
-	"github.com/VanceMichael/harborflow/internal/domain"
-	"github.com/VanceMichael/harborflow/internal/identity"
-	"github.com/VanceMichael/harborflow/internal/testsupport"
+	"github.com/VanceMichael/computeflow/internal/domain"
+	"github.com/VanceMichael/computeflow/internal/identity"
+	"github.com/VanceMichael/computeflow/internal/testsupport"
 	"testing"
 	"time"
 )

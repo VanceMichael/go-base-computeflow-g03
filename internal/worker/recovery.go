@@ -2,7 +2,7 @@ package worker
 
 import (
 	"context"
-	"github.com/VanceMichael/harborflow/internal/outbox"
+	"github.com/VanceMichael/computeflow/internal/outbox"
 	"time"
 )
 

@@ -2,7 +2,7 @@ package sqlite
 
 import (
 	"context"
-	"github.com/VanceMichael/harborflow/internal/domain"
+	"github.com/VanceMichael/computeflow/internal/domain"
 	"github.com/google/uuid"
 )
 
@@ -20,7 +20,7 @@ func (s *Store) GetPort(ctx context.Context, id string) (domain.Port, error) {
 	return p, nil
 }
 func (s *Store) EnsureDemoPort(ctx context.Context) (domain.Port, error) {
-	p := domain.Port{ID: uuid.NewString(), Code: "HKG-SZX", Name: "HarborFlow Joint Port", Timezone: "Asia/Shanghai", CreatedAt: s.Now()}
+	p := domain.Port{ID: uuid.NewString(), Code: "HKG-SZX", Name: "ComputeFlow Joint Port", Timezone: "Asia/Shanghai", CreatedAt: s.Now()}
 	if _, err := s.DB.ExecContext(ctx, `INSERT OR IGNORE INTO ports(id,code,name,timezone,created_at) VALUES(?,?,?,?,?)`, p.ID, p.Code, p.Name, p.Timezone, stamp(p.CreatedAt)); err != nil {
 		return p, err
 	}

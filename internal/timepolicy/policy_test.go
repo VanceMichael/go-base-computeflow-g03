@@ -1,7 +1,7 @@
 package timepolicy_test
 
 import (
-	"github.com/VanceMichael/harborflow/internal/timepolicy"
+	"github.com/VanceMichael/computeflow/internal/timepolicy"
 	"testing"
 	"time"
 )

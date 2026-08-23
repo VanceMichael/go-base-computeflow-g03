@@ -35,7 +35,7 @@ func Open(path string) (*Store, error) {
 }
 
 func OpenMemory() (*Store, error) {
-	db, err := sql.Open("sqlite", "file:harborflow-test-"+uuid.NewString()+"?mode=memory&cache=shared&_pragma=foreign_keys(1)")
+	db, err := sql.Open("sqlite", "file:computeflow-test-"+uuid.NewString()+"?mode=memory&cache=shared&_pragma=foreign_keys(1)")
 	if err != nil {
 		return nil, err
 	}

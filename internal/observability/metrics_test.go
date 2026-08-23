@@ -1,7 +1,7 @@
 package observability_test
 
 import (
-	"github.com/VanceMichael/harborflow/internal/observability"
+	"github.com/VanceMichael/computeflow/internal/observability"
 	"testing"
 )
 

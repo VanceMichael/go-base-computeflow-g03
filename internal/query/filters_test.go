@@ -1,7 +1,7 @@
 package query_test
 
 import (
-	"github.com/VanceMichael/harborflow/internal/query"
+	"github.com/VanceMichael/computeflow/internal/query"
 	"testing"
 	"time"
 )

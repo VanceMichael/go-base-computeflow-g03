@@ -3,9 +3,9 @@ package vehicle_test
 import (
 	"context"
 	"errors"
-	"github.com/VanceMichael/harborflow/internal/domain"
-	"github.com/VanceMichael/harborflow/internal/testsupport"
-	"github.com/VanceMichael/harborflow/internal/vehicle"
+	"github.com/VanceMichael/computeflow/internal/domain"
+	"github.com/VanceMichael/computeflow/internal/testsupport"
+	"github.com/VanceMichael/computeflow/internal/vehicle"
 	"testing"
 )
 

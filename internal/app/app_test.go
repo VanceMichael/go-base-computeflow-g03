@@ -2,8 +2,8 @@ package app_test
 
 import (
 	"context"
-	"github.com/VanceMichael/harborflow/internal/app"
-	"github.com/VanceMichael/harborflow/internal/config"
+	"github.com/VanceMichael/computeflow/internal/app"
+	"github.com/VanceMichael/computeflow/internal/config"
 	"log/slog"
 	"testing"
 	"time"

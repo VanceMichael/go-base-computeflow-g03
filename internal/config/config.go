@@ -25,7 +25,7 @@ func Load() (Config, error) {
 	}
 	path := os.Getenv("DATABASE_PATH")
 	if path == "" {
-		path = "./harborflow.db"
+		path = "./computeflow.db"
 	}
 	zoneName := os.Getenv("BUSINESS_TIMEZONE")
 	if zoneName == "" {

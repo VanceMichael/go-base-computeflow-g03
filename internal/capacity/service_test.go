@@ -3,9 +3,9 @@ package capacity_test
 import (
 	"context"
 	"database/sql"
-	"github.com/VanceMichael/harborflow/internal/capacity"
-	"github.com/VanceMichael/harborflow/internal/domain"
-	"github.com/VanceMichael/harborflow/internal/testsupport"
+	"github.com/VanceMichael/computeflow/internal/capacity"
+	"github.com/VanceMichael/computeflow/internal/domain"
+	"github.com/VanceMichael/computeflow/internal/testsupport"
 	"github.com/google/uuid"
 	"testing"
 	"time"

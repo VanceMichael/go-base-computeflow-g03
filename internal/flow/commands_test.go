@@ -1,7 +1,7 @@
 package flow_test
 
 import (
-	"github.com/VanceMichael/harborflow/internal/flow"
+	"github.com/VanceMichael/computeflow/internal/flow"
 	"testing"
 )
 

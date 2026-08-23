@@ -2,8 +2,8 @@ package incident_test
 
 import (
 	"errors"
-	"github.com/VanceMichael/harborflow/internal/domain"
-	"github.com/VanceMichael/harborflow/internal/incident"
+	"github.com/VanceMichael/computeflow/internal/domain"
+	"github.com/VanceMichael/computeflow/internal/incident"
 	"testing"
 )
 

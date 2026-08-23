@@ -3,9 +3,9 @@ package flow_test
 import (
 	"context"
 	"errors"
-	"github.com/VanceMichael/harborflow/internal/domain"
-	"github.com/VanceMichael/harborflow/internal/flow"
-	"github.com/VanceMichael/harborflow/internal/testsupport"
+	"github.com/VanceMichael/computeflow/internal/domain"
+	"github.com/VanceMichael/computeflow/internal/flow"
+	"github.com/VanceMichael/computeflow/internal/testsupport"
 	"testing"
 )
 

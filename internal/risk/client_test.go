@@ -3,8 +3,8 @@ package risk_test
 import (
 	"context"
 	"errors"
-	"github.com/VanceMichael/harborflow/internal/domain"
-	"github.com/VanceMichael/harborflow/internal/risk"
+	"github.com/VanceMichael/computeflow/internal/domain"
+	"github.com/VanceMichael/computeflow/internal/risk"
 	"testing"
 	"time"
 )

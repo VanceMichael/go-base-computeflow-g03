@@ -3,8 +3,8 @@ package vehicle
 import (
 	"context"
 	"fmt"
-	"github.com/VanceMichael/harborflow/internal/domain"
-	"github.com/VanceMichael/harborflow/internal/storage/sqlite"
+	"github.com/VanceMichael/computeflow/internal/domain"
+	"github.com/VanceMichael/computeflow/internal/storage/sqlite"
 )
 
 type QueryService struct{ Store *sqlite.Store }

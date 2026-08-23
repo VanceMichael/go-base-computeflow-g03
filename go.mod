@@ -1,4 +1,4 @@
-module github.com/VanceMichael/harborflow
+module github.com/VanceMichael/computeflow
 
 go 1.24
 

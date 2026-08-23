@@ -2,7 +2,7 @@ package domain_test
 
 import (
 	"errors"
-	"github.com/VanceMichael/harborflow/internal/domain"
+	"github.com/VanceMichael/computeflow/internal/domain"
 	"testing"
 )
 

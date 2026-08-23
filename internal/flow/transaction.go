@@ -4,8 +4,8 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"github.com/VanceMichael/harborflow/internal/domain"
-	"github.com/VanceMichael/harborflow/internal/storage/sqlite"
+	"github.com/VanceMichael/computeflow/internal/domain"
+	"github.com/VanceMichael/computeflow/internal/storage/sqlite"
 )
 
 type Transaction struct {
@@ -55,14 +55,14 @@ func (t *Transaction) Run(ctx context.Context, cmd ReleaseCommand, w domain.Pass
 }
 func (t *Transaction) WithSavepoint(ctx context.Context, fn func(context.Context, *sql.Tx) error) error {
 	return t.Store.WithTx(ctx, func(ctx context.Context, tx *sql.Tx) error {
-		if _, err := tx.ExecContext(ctx, `SAVEPOINT harborflow_operation`); err != nil {
+		if _, err := tx.ExecContext(ctx, `SAVEPOINT computeflow_operation`); err != nil {
 			return err
 		}
 		if err := fn(ctx, tx); err != nil {
-			_, _ = tx.ExecContext(ctx, `ROLLBACK TO harborflow_operation`)
+			_, _ = tx.ExecContext(ctx, `ROLLBACK TO computeflow_operation`)
 			return err
 		}
-		_, err := tx.ExecContext(ctx, `RELEASE harborflow_operation`)
+		_, err := tx.ExecContext(ctx, `RELEASE computeflow_operation`)
 		return err
 	})
 }
